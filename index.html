@@ -61,30 +61,6 @@
   <body>
     <div class="container">
       <div id="sentences">
-        <div class="word">
-            <div class="word-desc">
-                Desc
-            </div>
-            <div class="word-word">
-                word1
-            </div>
-        </div>
-        <div class="word">
-            <div class="word-desc">
-                Desc
-            </div>
-            <div class="word-word">
-                word2
-            </div>
-        </div>
-        <div class="word">
-            <div class="word-desc">
-                Desc
-            </div>
-            <div class="word-word">
-                word3
-            </div>
-        </div>
       </div>
       <div id="word-type-box">
         <div class="word-type">Noun</div>
@@ -92,12 +68,92 @@
         <div class="word-type">Preposition</div>
       </div>
       <button id="check" onclick="clicked()">Check</button>
+      <button id="generate" onclick="generate()">Generate new sentence</button>
     </div>
 
     <script>
         function clicked(){
-            alert("check the sentence")
+
+            let correct = 0
+
+            let container = document.getElementById('sentences');
+
+            let words = container.getElementsByClassName('word-desc')
+
+
+            for (let i = 0; i < words.length; i++) {
+                console.log(words.item(i).getAttribute("wordType"), words.item(i).getAttribute("userWordType"));
+
+                if(words.item(i).getAttribute("wordType") == words.item(i).getAttribute("userWordType")){
+                    console.log("yes")
+                    correct += 1
+                }
+
+            }
+
+            alert("You got " + correct + " correct!")
         }
+
+        let list = [
+            [
+                {word: "The", type: "Determiner"},
+                {word: "sun", type: "Noun"},
+                {word: "is", type: "Link"},
+                {word: "shining", type: "Verb"},
+                {word: "brightly", type: "Adverb"},
+                {word: "in", type: "Preposition"},
+                {word: "the", type: "Determiner"},
+                {word: "clear", type: "Adjective"},
+                {word: "blue", type: "Adjective"},
+                {word: "sky", type: "Noun"}
+            ],
+            [
+                {word: "The", type: "Determiner"},
+                {word: "rain", type: "Noun"},
+                {word: "is", type: "Verb"},
+                {word: "falling", type: "Verb"},
+                {word: "gently", type: "Adverb"},
+                {word: "on", type: "Preposition"},
+                {word: "the", type: "Determiner"},
+                {word: "green", type: "Adjective"},
+                {word: "grass", type: "Noun"}
+            ],
+            [
+                {word: "The", type: "Determiner"},
+                {word: "children", type: "Noun"},
+                {word: "are", type: "Verb"},
+                {word: "playing", type: "Verb"},
+                {word: "happily", type: "Adverb"},
+                {word: "in", type: "Preposition"},
+                {word: "the", type: "Determiner"},
+                {word: "park", type: "Noun"}
+            ]
+        ];
+
+        function generate() {
+            let sentence = list[Math.floor(Math.random() * list.length)]
+
+            let container = document.getElementById('sentences')
+
+            let sentencehtml = "";
+
+            sentence.forEach((word, i) => {
+                sentencehtml += `
+                <div class="word">
+                    <div class="word-desc" userWordType="Verb" wordType="${word.type}">
+                        ${word.type}
+                    </div>
+                    <div class="word-word">
+                        ${word.word}
+                    </div>
+                </div>
+                `
+            })
+
+            container.innerHTML = sentencehtml
+        }
+
+        generate();
     </script>
   </body>
 </html>
