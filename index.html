@@ -1,144 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Word type practice</title>
-    <!-- much css -->
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            background-color: red;
-            align-content: flex-end;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .word {
-            background-color: green;
-            display: flex;
-            flex-direction: column;
-        }
-        .word-desc {
-            background-color: purple;
-            border-radius: 10px 10px 0px 0px;
-        }
-        .word-word {
-            background-color: orange;
-        }
-        .word-type {
-            background-color: lightcoral;
-            border-radius: 10px;
-            padding: 10px;
-        }
-        .container {
-            background-color: yellow;
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Word type practice</title>
+        <!-- much css -->
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                background-color: red;
+                align-content: flex-end;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .word {
+                background-color: green;
+                display: flex;
+                flex-direction: column;
+            }
+            .word-desc {
+                background-color: purple;
+                border-radius: 10px 10px 0px 0px;
+            }
+            .word-word {
+                background-color: orange;
+            }
+            .word-type {
+                background-color: lightcoral;
+                border-radius: 10px;
+                padding: 10px;
+            }
+            .container {
+                background-color: yellow;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            #sentences {
+                background-color: pink;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                justify-content: center;
+            }
+            #word-type-box {
+                display: flex;
+                width: 60vw;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            #check {
+                width: fit-content;
+                align-self: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div id="sentences"></div>
+            <div id="word-type-box"></div>
+            <button id="button" onclick="clicked()">Check Answers</button>
+        </div>
 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        #sentences {
-            background-color: pink;
+        <script>
+            function clicked() {
+                let correct = 0;
+                let words = document.querySelectorAll("#sentences .word");
 
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            justify-content: center;
-        }
-        #word-type-box {
-            display: flex;
-            justify-content: row;
-            justify-content: center;
-        }
-        #check {
-            width: fit-content;
-            align-self: center;
-        }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div id="sentences">
-      </div>
-      <div id="word-type-box">
-        <div class="word-type">Noun</div>
-        <div class="word-type">Verb</div>
-        <div class="word-type">Preposition</div>
-      </div>
-      <button id="check" onclick="clicked()">Check</button>
-      <button id="generate" onclick="generate()">Generate new sentence</button>
-    </div>
+                words.forEach((elem) => {
+                    let selector = elem.querySelector(".dropdown select");
+                    let actual = elem.querySelector(".word-desc");
+                    console.log(
+                        "input:" +
+                            selector.value +
+                            " " +
+                            "Expected:" +
+                            actual.getAttribute("wordType")
+                    );
 
-    <script>
-        function clicked(){
-
-            let correct = 0
-
-            let container = document.getElementById('sentences');
-
-            let words = container.getElementsByClassName('word-desc')
-
-
-            for (let i = 0; i < words.length; i++) {
-                console.log(words.item(i).getAttribute("wordType"), words.item(i).getAttribute("userWordType"));
-
-                if(words.item(i).getAttribute("wordType") == words.item(i).getAttribute("userWordType")){
-                    console.log("yes")
-                    correct += 1
-                }
-
+                    if (selector.value == actual.getAttribute("wordType")) {
+                        correct += 1;
+                    }
+                });
+                let button = document.querySelector("#button");
+                button.innerText = "New Sentence";
+                button.setAttribute("onclick", "generateSentence()");
+                // alert("You got " + correct + " out of " + words.length + " correct.")
             }
 
-            alert("You got " + correct + " correct!")
-        }
+            let list = [
+                [
+                    { word: "The", type: "Determiner" },
+                    { word: "sun", type: "Noun" },
+                    { word: "is", type: "Link" },
+                    { word: "shining", type: "Verb" },
+                    { word: "brightly", type: "Adverb" },
+                    { word: "in", type: "Preposition" },
+                    { word: "the", type: "Determiner" },
+                    { word: "clear", type: "Adjective" },
+                    { word: "blue", type: "Adjective" },
+                    { word: "sky", type: "Noun" },
+                ],
+                [
+                    { word: "The", type: "Determiner" },
+                    { word: "rain", type: "Noun" },
+                    { word: "is", type: "Verb" },
+                    { word: "falling", type: "Verb" },
+                    { word: "gently", type: "Adverb" },
+                    { word: "on", type: "Preposition" },
+                    { word: "the", type: "Determiner" },
+                    { word: "green", type: "Adjective" },
+                    { word: "grass", type: "Noun" },
+                ],
+                [
+                    { word: "The", type: "Determiner" },
+                    { word: "children", type: "Noun" },
+                    { word: "are", type: "Verb" },
+                    { word: "playing", type: "Verb" },
+                    { word: "happily", type: "Adverb" },
+                    { word: "in", type: "Preposition" },
+                    { word: "the", type: "Determiner" },
+                    { word: "park", type: "Noun" },
+                ],
+            ];
 
-        let list = [
-            [
-                {word: "The", type: "Determiner"},
-                {word: "sun", type: "Noun"},
-                {word: "is", type: "Link"},
-                {word: "shining", type: "Verb"},
-                {word: "brightly", type: "Adverb"},
-                {word: "in", type: "Preposition"},
-                {word: "the", type: "Determiner"},
-                {word: "clear", type: "Adjective"},
-                {word: "blue", type: "Adjective"},
-                {word: "sky", type: "Noun"}
-            ],
-            [
-                {word: "The", type: "Determiner"},
-                {word: "rain", type: "Noun"},
-                {word: "is", type: "Verb"},
-                {word: "falling", type: "Verb"},
-                {word: "gently", type: "Adverb"},
-                {word: "on", type: "Preposition"},
-                {word: "the", type: "Determiner"},
-                {word: "green", type: "Adjective"},
-                {word: "grass", type: "Noun"}
-            ],
-            [
-                {word: "The", type: "Determiner"},
-                {word: "children", type: "Noun"},
-                {word: "are", type: "Verb"},
-                {word: "playing", type: "Verb"},
-                {word: "happily", type: "Adverb"},
-                {word: "in", type: "Preposition"},
-                {word: "the", type: "Determiner"},
-                {word: "park", type: "Noun"}
-            ]
-        ];
+            function generateSentence() {
+                let sentence = list[Math.floor(Math.random() * list.length)];
 
-        function generate() {
-            let sentence = list[Math.floor(Math.random() * list.length)]
+                let container = document.querySelector("#sentences");
 
-            let container = document.getElementById('sentences')
-
-            let sentencehtml = "";
-
-            sentence.forEach((word, i) => {
-                sentencehtml += `
+                sentence.forEach((word, i) => {
+                    container.insertAdjacentHTML(
+                        "beforeend",
+                        `
                 <div class="word">
                     <div class="word-desc" userWordType="Verb" wordType="${word.type}">
                         ${word.type}
@@ -146,14 +143,30 @@
                     <div class="word-word">
                         ${word.word}
                     </div>
+                <div class="dropdown">
+                    <select>
+                        <option value="">----</option>
+                        <option value="Noun">Noun</option>
+                        <option value="Verb">Verb</option>
+                        <option value="Adjective">Adjective</option>
+                        <option value="Adverb">Adverb</option>
+                        <option value="Pronoun">Pronoun</option>
+                        <option value="Preposition">Preposition</option>
+                        <option value="Conjunction">Conjunction</option>
+                        <option value="Interjection">Interjection</option>
+                        <option value="Article">Article</option>
+                    </select>
+                    </div>
                 </div>
                 `
-            })
+                    );
+                });
+                let button = document.querySelector("#button");
+                button.innerText = "Check Answers";
+                button.setAttribute("onclick", "clicked()");
+            }
 
-            container.innerHTML = sentencehtml
-        }
-
-        generate();
-    </script>
-  </body>
+            generateSentence();
+        </script>
+    </body>
 </html>
