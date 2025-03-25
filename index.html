@@ -9,42 +9,47 @@
             body {
                 display: flex;
                 justify-content: center;
-                background-color: red;
+                background-color: #f9f4fe;
                 align-content: flex-end;
                 align-items: center;
                 height: 100vh;
                 margin: 0;
+                font-family: sans-serif;
             }
             .word {
-                background-color: green;
                 display: flex;
                 flex-direction: column;
+                margin: 10px 5px;
+                text-align: center;
             }
             .word-desc {
-                background-color: purple;
+                background-color: #ee7fc0;
+                color: #ee7fc0;
                 border-radius: 10px 10px 0px 0px;
+                font-family: monospace;
             }
             .word-word {
-                background-color: orange;
+                background-color: #e85482;
+                padding: 4px;
             }
             .word-type {
-                background-color: lightcoral;
                 border-radius: 10px;
                 padding: 10px;
             }
             .container {
-                background-color: yellow;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                padding: 10px;
             }
             #sentences {
-                background-color: pink;
                 display: flex;
+                flex-wrap: wrap;
                 flex-direction: row;
                 justify-content: center;
                 justify-content: center;
+                margin: 0px 0px 10px 0px;
             }
             #word-type-box {
                 display: flex;
@@ -56,6 +61,25 @@
                 width: fit-content;
                 align-self: center;
             }
+            .dropdown select {
+                background-color: #ee7fc0;
+                border: none;
+                border-radius: 0px 0px 10px 10px;
+            }
+
+            .dropdown select:hover {
+                background-color: #e85482;
+            }
+            .container button {
+                background-color: whitesmoke;
+                padding: 5px;
+                border: none;
+                border-radius: 50px;
+                box-shadow: 4px 4px 12px;
+            }
+            .container button:hover {
+                background-color: lightgrey;
+            }
         </style>
     </head>
     <body>
@@ -66,31 +90,27 @@
         </div>
 
         <script>
+            // Check if the sentence is corect
             function clicked() {
-                let correct = 0;
                 let words = document.querySelectorAll("#sentences .word");
 
                 words.forEach((elem) => {
-                    let selector = elem.querySelector(".dropdown select");
-                    let actual = elem.querySelector(".word-desc");
-                    console.log(
-                        "input:" +
-                            selector.value +
-                            " " +
-                            "Expected:" +
-                            actual.getAttribute("wordType")
-                    );
-
-                    if (selector.value == actual.getAttribute("wordType")) {
-                        correct += 1;
+                    let userInput = elem.querySelector(".dropdown select");
+                    let word = elem.querySelector(".word-desc");
+                    // word type info is stored in html attributes
+                    word.style.color = "black";
+                    if (userInput.value == word.getAttribute("wordType")) {
+                        word.style.backgroundColor = "#35cc35";
+                    } else {
+                        word.style.backgroundColor = "#ff3939";
                     }
                 });
                 let button = document.querySelector("#button");
                 button.innerText = "New Sentence";
                 button.setAttribute("onclick", "generateSentence()");
-                // alert("You got " + correct + " out of " + words.length + " correct.")
             }
 
+            // array of words picked randomly
             let list = [
                 [
                     { word: "The", type: "Determiner" },
@@ -127,10 +147,12 @@
                 ],
             ];
 
+            // place new sentence onscreen
             function generateSentence() {
                 let sentence = list[Math.floor(Math.random() * list.length)];
 
                 let container = document.querySelector("#sentences");
+                container.innerHTML = "";
 
                 sentence.forEach((word, i) => {
                     container.insertAdjacentHTML(
@@ -145,7 +167,7 @@
                     </div>
                 <div class="dropdown">
                     <select>
-                        <option value="">----</option>
+                        <option value=""></option>
                         <option value="Noun">Noun</option>
                         <option value="Verb">Verb</option>
                         <option value="Adjective">Adjective</option>
@@ -166,7 +188,7 @@
                 button.setAttribute("onclick", "clicked()");
             }
 
-            generateSentence();
+            generateSentence(); // Sentence populated as soon as page load
         </script>
     </body>
 </html>
